@@ -5,6 +5,7 @@ import logging
 import mylib
 from mylib import xstr
 
+
 logger = logging.getLogger(__name__)
 mylib.setup_logger(logger)
 logger.setLevel(logging.INFO)
