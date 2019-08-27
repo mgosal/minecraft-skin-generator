@@ -4,7 +4,7 @@ from PIL import Image
 import logging
 import mylib
 from mylib import xstr
-# import showimagepicker
+
 import photos
 
 logger = logging.getLogger(__name__)
@@ -140,10 +140,8 @@ def build_skin(photo_filename, photo_offset_x, photo_offset_y):
     }
 
     logger.info("Converting photo '%s' to skin with offset (%d, %d)", photo_filename, photo_offset_x, photo_offset_y)
-    all_assets = photos.get_assets()
-    last_asset = all_assets[-1]
-    img = last_asset.get_image()
-    photo = img
+    
+    photo = photos.pick_asset(photos.get_assets(), multi=False).get_image()
 
     # resize the photo to match the skin size (keep the aspect ratio to avoid stretching)
     photo_scale = min(photo.width / SKIN_WIDTH, photo.height / SKIN_HEIGHT)
