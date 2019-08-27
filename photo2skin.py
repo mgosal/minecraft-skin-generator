@@ -4,7 +4,8 @@ from PIL import Image
 import logging
 import mylib
 from mylib import xstr
-
+# import showimagepicker
+import photos
 
 logger = logging.getLogger(__name__)
 mylib.setup_logger(logger)
@@ -139,7 +140,10 @@ def build_skin(photo_filename, photo_offset_x, photo_offset_y):
     }
 
     logger.info("Converting photo '%s' to skin with offset (%d, %d)", photo_filename, photo_offset_x, photo_offset_y)
-    photo = Image.open(photo_filename)
+    all_assets = photos.get_assets()
+    last_asset = all_assets[-1]
+    img = last_asset.get_image()
+    photo = img
 
     # resize the photo to match the skin size (keep the aspect ratio to avoid stretching)
     photo_scale = min(photo.width / SKIN_WIDTH, photo.height / SKIN_HEIGHT)
@@ -220,19 +224,28 @@ def build_thumbnail(source_skin, photo_offset_x, photo_offset_y):
 
     return photo
 
-
 if __name__ == "__main__":
     # read command-line args
     parser = argparse.ArgumentParser(description="Create a Minecraft skin from a photo.")
-    parser.add_argument("photo_filename", help="filename of the photo to process")
+    parser.add_argument("-photo_filename", help="filename of the photo to process")
     parser.add_argument("-x", dest="offset_x", help="horizontal offset in photo", type=int, default=0)
     parser.add_argument("-y", dest="offset_y", help="vertical offset in photo", type=int, default=0)
     args = parser.parse_args()
     print(args)
 
-    photo_basename = os.path.splitext(args.photo_filename)[0]
-    photo_suffix = os.path.splitext(args.photo_filename)[1]
+    
 
+    # filename = showimagepicker.assets
+    # extension = assets
+    
+    #print(filename)
+
+    photo_basename = "minecraftskin"
+    
+        
+                 
+
+    
     skin = build_skin(args.photo_filename, args.offset_x, args.offset_y)
     skin_filename = photo_basename + "-skin.png"
     logger.info("Saving skin as %s", skin_filename)
